@@ -20,30 +20,63 @@ class Application_Model_Client
 	private $_provider;
 	private $_comment;
 	private $_account_status;
-	
-	//public function __set($name, $value);
-    //public function __get($name);
-	
-    public function setId($id)
+
+	public function __construct(array $options = null)
+	{
+			if (is_array($options)) {
+					$this->setOptions($options);
+			}
+	}
+
+	public function setOptions(array $options)
+	{
+			$methods = get_class_methods($this);
+			foreach ($options as $key => $value) {
+					$method = 'set' . ucfirst($key);
+					if (in_array($method, $methods)) {
+							$this->$method($value);
+					}
+			}
+			return $this;
+	}
+
+	public function convert2Array(){
+			$clients = array();
+			foreach ($this as $key => $value) {
+					$key = substr($key, 1);
+					$clients[$key] = $value;
+			}
+			return $clients;
+	}
+
+  public function setId($id)
 	{
 		$this->_id = (int)$id;
 		return $this;
 	}
-    public function getId()
+  public function getId()
 	{
 		return $this->_id;
 	}
-	
+
 	public function setName($name)
 	{
 		$this->_name = $name;
 		return $this;
 	}
-    public function getName()
+  public function getName()
 	{
-		echo "test";
-		echo $this->_name;
 		return $this->_name;
+	}
+
+	public function setNit($nit)
+	{
+		$this->_nit = $nit;
+		return $this;
+	}
+		public function getNit()
+	{
+		return $this->_nit;
 	}
 
 }

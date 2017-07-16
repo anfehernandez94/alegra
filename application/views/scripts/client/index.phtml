@@ -1,9 +1,35 @@
 <?php
-
-	foreach ($this->entries as $entry)
-	{
-		var_dump($entry);
-		echo $this->escape($entry->getName());
-	}
+	header('Content-Type: text/html; charset=utf-8');
+/*
+	<table>
+		<head>
+			<tr>
+				<td>Name</td>
+				<td>NIT</td>
+				<td>Telephone 1</td>
+				<td>Comments</td>
+				<td>Actions</td>
+			</tr>
+		</head>
+		<body>
+		*/
+		foreach ($this->entries as $entry)
+		{
+			/*
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>*/
+echo htmlentities($this->escape($entry->getId()))."<br/>";
+			echo htmlentities($this->escape($entry->getName()))."<br/>";
+			echo htmlentities($this->escape($entry->getNit()))."<br/>";
+		}
+		/*
+		</body>
+	</table>
+	<a href="https://www.google.com">Google</a>*/
 
 ?>
