@@ -79,4 +79,24 @@ class Application_Model_Client
 		return $this->_nit;
 	}
 
+	public function setTel01($tel01)
+	{
+		$this->_tel01 = $tel01;
+		return $this;
+	}
+		public function getTel01()
+	{
+		return $this->_tel01;
+	}
+
+	public function setComment($comment)
+	{
+		$this->_comment = $comment;
+		return $this;
+	}
+		public function getComment()
+	{
+		return $this->_comment;
+	}
+
 }

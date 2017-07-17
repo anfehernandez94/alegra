@@ -72,11 +72,17 @@ class Application_Form_NewClient extends Zend_Form
         $this->addElement($linkCancel);
 
         $this->addElement('submit', 'Save and create other', array(
-          'name'  => 'saveAndOther'
+          'value'   => 'saveAndOther',
+          'id'      => 'saveAndOther'
         ));
     		$this->addElement('submit', 'Save', array(
-          'name'  => 'save'
+          'value' => 'save',
+          'id' => 'save',
         ));
+
+        $linkAdd = new Zend_Form_Element_Hidden('add');
+        $linkAdd->setLabel('<a href="add">Add</a>');
+        $linkAdd->getDecorator('label')->setOption('escape', false);
 
 
     }

@@ -13,6 +13,8 @@
 		</head>
 		<body>
 		*/
+
+		echo "<a href='client/add'>Add</a><br/><br/>";
 		foreach ($this->entries as $entry)
 		{
 			/*
@@ -23,9 +25,18 @@
 				<td></td>
 				<td></td>
 			</tr>*/
-echo htmlentities($this->escape($entry->getId()))."<br/>";
-			echo htmlentities($this->escape($entry->getName()))."<br/>";
-			echo htmlentities($this->escape($entry->getNit()))."<br/>";
+			echo "ID: ".htmlentities($this->escape($entry->getId()))."<br/>";
+			echo "Name: ".htmlentities($this->escape($entry->getName()))."<br/>";
+			echo "Nit: ".htmlentities($this->escape($entry->getNit()))."<br/>";
+			echo "Telephone 1: ".htmlentities($this->escape($entry->getTel01()))."<br/>";
+			echo "Comment: ".htmlentities($this->escape($entry->getComment()))."<br/>";
+			echo "<form action='edit' method='get'>
+						  Choose your favorite subject:
+							<button name='watch' type='submit' >Watch</button>
+						  <button name='edit' type='submit' >Edit</button>
+						  <button name='delete' type='submit' >Delete</button>
+						</form><hr><br/>";
+
 		}
 		/*
 		</body>
