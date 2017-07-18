@@ -1,46 +1,159 @@
-<?php
-	header('Content-Type: text/html; charset=utf-8');
-/*
-	<table>
-		<head>
-			<tr>
-				<td>Name</td>
-				<td>NIT</td>
-				<td>Telephone 1</td>
-				<td>Comments</td>
-				<td>Actions</td>
-			</tr>
-		</head>
-		<body>
-		*/
 
-		echo "<a href='client/add'>Add</a><br/><br/>";
+
+	<script>
+		var clientData = <?= Zend_Json::encode($this->entries) ?>;
+		console.log(clientData);
+		Ext.require([
+		    'Ext.grid.*',
+		    'Ext.data.*',
+		    'Ext.util.*',
+		    'Ext.state.*',
+		    'Ext.form.*'
+		]);
+
+
+		Ext.define('ClientModel', {
+				extend: 'Ext.data.Model',
+				fields: [
+						/*{ name: 'selected', type: 'bool' },*/
+						'id',
+						'name',
+						'nit',
+						'tel01',
+						'comment'
+				]
+		});
+
+		// create the Data Store
+		var store = Ext.create('Ext.data.Store', {
+				// destroy the store if the grid is destroyed
+				//autoDestroy: true,
+				storeId: 'clientStore',
+				model: 'ClientModel',
+				proxy: {
+						type: 'memory',
+						reader:{
+							type: 'json'
+						}
+				},
+				data: clientData
+				/*sorters: [{
+						property: 'start',
+						direction: 'DESC'
+				}]*/
+		});
+
+
+		// create the grid and specify what field you want
+    // to use for the editor at each column.
+    var grid = Ext.create('Ext.grid.Panel', {
+        store:  store,
+        columns: [/*
+					{
+	            xtype: 'checkcolumn',
+	            header: 'Select',
+	            dataIndex: 'selected',
+							flex : 1
+	        },*/{
+            header: 'Name',
+            dataIndex: 'name',
+						text: 'NAmeasd',
+						name: 'name11',
+            flex: 1
+
+        }, {
+            header: 'Nit',
+            dataIndex: 'nit',
+						sortable: true,
+						flex: 1
+        }, {
+            header: 'Telephone 01',
+            dataIndex: 'tel01',
+						sortable: true,
+						flex: 1
+        }, {
+            header: 'Comments',
+            dataIndex: 'comment',
+						sortable: true,
+						flex: 1
+        }]
+        //plugins: [rowEditing]
+    });
+
+		var menu = Ext.create('Ext.menu.Menu', {
+				plain: true,
+				floating: false,  // usually you want this set to True (default)
+				style: {
+						 overflow: 'visible'     // For the Combo popup
+				 },
+				items: [{
+						text: 'plain item 1'
+				},{
+						text: 'plain item 2'
+				},{
+						text: 'plain item 3'
+				}],
+
+				//renderTo: document.body
+		});
+
+		var tb = Ext.create('Ext.toolbar.Toolbar', {
+				//renderTo: document.body,
+				width: 400,
+				items: [{
+								text: 'Button'
+						}, {
+								xtype: 'splitbutton',
+								text: 'Split Button'
+						},
+						'->', {
+								xtype: 'textfield',
+								name: 'field1',
+								emptyText: 'enter search term'
+						}
+				]
+			});
+
+		tb.add(menu);
+		tb.add(tb);
+
+	 Ext.define('Main', {
+	     extend: 'Ext.container.Container',
+	     xtype: 'app-main',
+	     items: tb
+
+	 });
+
+	 Ext.application({
+	     name: 'Clients',
+
+	     launch : function() {
+	         Ext.create("Main", {
+	             renderTo : Ext.getBody()
+	         });
+	     }
+	 });
+
+	</script>
+<!--
+
+
+/*
+	header('Content-Type: text/html; charset=utf-8');
+		echo "<a href='add'>Add</a><br/><br/>";
 		foreach ($this->entries as $entry)
 		{
-			/*
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>*/
 			echo "ID: ".htmlentities($this->escape($entry->getId()))."<br/>";
 			echo "Name: ".htmlentities($this->escape($entry->getName()))."<br/>";
 			echo "Nit: ".htmlentities($this->escape($entry->getNit()))."<br/>";
 			echo "Telephone 1: ".htmlentities($this->escape($entry->getTel01()))."<br/>";
 			echo "Comment: ".htmlentities($this->escape($entry->getComment()))."<br/>";
 			echo "<form action='edit' method='get'>
-						  Choose your favorite subject:
+						  Actions:
 							<button name='watch' type='submit' >Watch</button>
 						  <button name='edit' type='submit' >Edit</button>
 						  <button name='delete' type='submit' >Delete</button>
 						</form><hr><br/>";
-
 		}
-		/*
-		</body>
-	</table>
-	<a href="https://www.google.com">Google</a>*/
-
-?>
+		*/
+?>-->

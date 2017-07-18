@@ -10,8 +10,8 @@ class ClientController extends Zend_Controller_Action
 
     public function indexAction()
     {
-		$clientMapper = new Application_Model_ClientMapper();
-		$this->view->entries = $clientMapper->fetchAll();
+  		$clientMapper = new Application_Model_ClientMapper();
+      $this->view->entries = ($clientMapper->fetchAll());
     }
 
 	   public function addAction()

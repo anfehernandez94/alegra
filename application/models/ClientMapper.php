@@ -42,8 +42,10 @@ class Application_Model_ClientMapper
             $entry = new Application_Model_Client();
             $entry	->setId($row->id)
 										->setName($row->name)
-										->setNit($row->nit);
-            $entries[] = $entry;
+										->setNit($row->nit)
+										->setTel01($row->tel01)
+										->setComment($row->comment);
+            $entries[] = $entry->convert2Array();
         }
         return $entries;
     }

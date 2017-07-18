@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<head>
+<?php
+
+  echo $this->headScript()->prependFile($this->baseUrl('js/extjs_6_5/ext-all.js'));
+//  echo $this->headLink()->setStylesheet('/css/style01.css');
+// echo $this->headLink()->setStylesheet('/css/theme-triton/theme-triton-all.css');
+//echo $this->headLink()->setStylesheet('/css/ext-theme-gray-all2.css');
+//echo $this->headLink()->appendStylesheet('/css/styles-min.css');
+//  echo $this->headLink()->appendStylesheet('/css/theme-triton/theme-triton-all.css');
+  //echo $this->headLink()->appendStylesheet('/css/theme-ios-all.css');
+  echo $this->headLink()
+                  //->appendStylesheet($this->baseUrl().'/css/theme-ios-all.css');
+                  //->prependStylesheet('/css/ext-all.css');
+                  ->prependStylesheet('/css/styles-min.css')
+                  ->prependStylesheet('/css/ext-theme-gray-all2.css')
+                  ->prependStylesheet('/css/theme-triton/theme-triton-all.css');
+                  
+
+  //echo $this->layout()->scriptTags = '<script>alert("here\'s my" + "test")</script>';
+  echo $this->layout()->content;
+
+?>
+
+<script>
+  var menu = Ext.create('Ext.menu.Menu', {
+      plain: true,
+      floating: false,  // usually you want this set to True (default)
+      style: {
+           overflow: 'visible'     // For the Combo popup
+       },
+      items: [{
+          text: 'plain item 1'
+      },{
+          text: 'plain item 2'
+      },{
+          text: 'plain item 3'
+      }],
+
+      //renderTo: document.body
+  });
+
+   Ext.create('Ext.toolbar.Toolbar',{
+        height   : 50,
+        items:[{
+          text: 'menu',
+          menu: menu
+        },{
+          text: 'Button'
+        }
+        ],
+        renderTo: document.body
+      });
+
+      Ext.create('Ext.toolbar.Toolbar', {
+    renderTo: document.body,
+    width: 400,
+    items: [{
+            text: 'Button'
+        }, {
+            xtype: 'splitbutton',
+            text: 'Split Button'
+        },
+        '->', {
+            xtype: 'textfield',
+            name: 'field1',
+            emptyText: 'enter search term'
+        }
+    ]
+});
+
+
+  /*  tb.render('toolbar');
+  tb.suspendLayouts();
+  tb.add({
+    text: "asd",
+    menu: menu
+  });
+  tb.resumeLayouts(true);*/
+
+
+  /*Ext.create({
+
+    text: 'OK',
+    menu:[{
+      text: "item1"
+    },{
+      text: "item2",
+      menu:[{
+        text: "subitem"
+      }]
+    }],
+
+    renderTo: Ext.getBody()
+  });*/
+</script>
+</head>
