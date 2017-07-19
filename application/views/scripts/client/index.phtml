@@ -2,7 +2,7 @@
 
 	<script>
 		var clientData = <?= Zend_Json::encode($this->entries) ?>;
-		console.log(clientData);
+		//console.log(clientData);
 		Ext.require([
 		    'Ext.grid.*',
 		    'Ext.data.*',
@@ -24,10 +24,7 @@
 				]
 		});
 
-		// create the Data Store
 		var store = Ext.create('Ext.data.Store', {
-				// destroy the store if the grid is destroyed
-				//autoDestroy: true,
 				storeId: 'clientStore',
 				model: 'ClientModel',
 				proxy: {
@@ -37,92 +34,136 @@
 						}
 				},
 				data: clientData
-				/*sorters: [{
-						property: 'start',
-						direction: 'DESC'
-				}]*/
 		});
 
+		var menu = Ext.create('Ext.menu.Menu', {
+	      plain: true,
+	      layout: 'hbox',
+	      floating: false,
+	      flex: true,
+	      style: {
+	           overflow: 'visible'
+	       },
+	      items: [{
+	          text: '+Nuevo Cliente',
+						xtype: 'button',
+						handler: function() {
+                window.location = '/client/add';
+            }
+	      },{
+	          text: 'Importar desde excel'
+	      },{
+	          xtype: 'tbspacer',
+						width: '25px'
+	      }]
 
-		// create the grid and specify what field you want
-    // to use for the editor at each column.
+	      //,renderTo: document.body
+	      ,region: 'north'
+	  });
+
+		var menuButtons = Ext.create('Ext.menu.Menu',{
+			plain: true,
+			layout: 'hbox',
+			floating: false,
+			flex: true,
+			style: {
+					 overflow: 'visible'
+			 },
+			items: [{
+					text: 'Edit',
+					xtype: 'button',
+
+			}]
+		})
+
+
     var grid = Ext.create('Ext.grid.Panel', {
+			  //renderTo: document.body,
+				region: 'center',
         store:  store,
-        columns: [/*
+				plain: false,
+				align : 'center',
+				width: '85%',
+				floating: false,
+				style: {
+						 overflow: 'visible'
+				 },
+        columns: [
 					{
+							//style: 'margin: 1em auto 2em; width: 85%; height:30px;',
 	            xtype: 'checkcolumn',
-	            header: 'Select',
 	            dataIndex: 'selected',
-							flex : 1
-	        },*/{
+							flex : 0
+	        },{
             header: 'Name',
             dataIndex: 'name',
-						text: 'NAmeasd',
-						name: 'name11',
+						text: 'Name',
+						//xtype: 'checkcolumn',
             flex: 1
 
         }, {
             header: 'Nit',
             dataIndex: 'nit',
-						sortable: true,
-						flex: 1
+						sortable: true
+						,flex: 1
         }, {
             header: 'Telephone 01',
             dataIndex: 'tel01',
-						sortable: true,
-						flex: 1
+						sortable: true
+						,flex: 1
         }, {
             header: 'Comments',
             dataIndex: 'comment',
-						sortable: true,
-						flex: 1
-        }]
-        //plugins: [rowEditing]
+						sortable: true
+						,flex: 1
+        },{
+					header: 'Acciones',
+					xtype: 'actioncolumn',
+					items: [{
+								icon: "/images/zoom.png",
+								text: "zoom",
+								tooltip: "Ver",
+								handler: function() {
+										console.log(grid.getStore().data.length);
+										//var record = grid.getStore().getAt(0);
+										//console.log(record.data.name);
+										var record = grid.getSelectionModel().getSelected();
+												//index = grid.store.indexOf(record);
+										console.log(record);
+										var pos = grid.getSelectionModel().getSelection();
+										console.log(pos);
+								}
+							},{
+								icon: "/images/page_edit.png",
+								text: "edit",
+								tooltip: "Editar",
+								handler: function() {
+										window.location = '/client/edit';
+								}
+							},{
+								icon: "/images/delete.png",
+								text: "delete",
+								tooltip: "Eliminar"
+					}],
+					flex: 1
+				}]
     });
 
-		var menu = Ext.create('Ext.menu.Menu', {
-				plain: true,
-				floating: false,  // usually you want this set to True (default)
-				style: {
-						 overflow: 'visible'     // For the Combo popup
-				 },
-				items: [{
-						text: 'plain item 1'
-				},{
-						text: 'plain item 2'
-				},{
-						text: 'plain item 3'
-				}],
 
-				//renderTo: document.body
-		});
-
-		var tb = Ext.create('Ext.toolbar.Toolbar', {
-				//renderTo: document.body,
-				width: 400,
-				items: [{
-								text: 'Button'
-						}, {
-								xtype: 'splitbutton',
-								text: 'Split Button'
-						},
-						'->', {
-								xtype: 'textfield',
-								name: 'field1',
-								emptyText: 'enter search term'
-						}
-				]
-			});
-
-		tb.add(menu);
-		tb.add(tb);
+		var spacer = {
+									 xtype: 'tbspacer',
+									 height: '25px'
+								 };
 
 	 Ext.define('Main', {
 	     extend: 'Ext.container.Container',
-	     xtype: 'app-main',
-	     items: tb
-
+	     xtype: 'app-main'
+	     ,items: [spacer,
+				 				menu,
+								spacer,
+				 				grid ]
 	 });
+
 
 	 Ext.application({
 	     name: 'Clients',
@@ -134,26 +175,5 @@
 	     }
 	 });
 
-	</script>
-<!--
 
-
-/*
-	header('Content-Type: text/html; charset=utf-8');
-		echo "<a href='add'>Add</a><br/><br/>";
-		foreach ($this->entries as $entry)
-		{
-			echo "ID: ".htmlentities($this->escape($entry->getId()))."<br/>";
-			echo "Name: ".htmlentities($this->escape($entry->getName()))."<br/>";
-			echo "Nit: ".htmlentities($this->escape($entry->getNit()))."<br/>";
-			echo "Telephone 1: ".htmlentities($this->escape($entry->getTel01()))."<br/>";
-			echo "Comment: ".htmlentities($this->escape($entry->getComment()))."<br/>";
-			echo "<form action='edit' method='get'>
-						  Actions:
-							<button name='watch' type='submit' >Watch</button>
-						  <button name='edit' type='submit' >Edit</button>
-						  <button name='delete' type='submit' >Delete</button>
-						</form><hr><br/>";
-		}
-		*/
-?>-->
+</script>

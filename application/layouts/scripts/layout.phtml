@@ -1,8 +1,12 @@
 <!DOCTYPE html>
+<html>
 <head>
 <?php
 
-  echo $this->headScript()->prependFile($this->baseUrl('js/extjs_6_5/ext-all.js'));
+  echo $this->headScript()
+                  ->prependFile($this->baseUrl('js/extjs_6_5\theme-classic\theme-classic-debug.js'))
+                  //->prependFile($this->baseUrl('js/ext-bootstrap.js'));
+                  ->prependFile($this->baseUrl('js/extjs_6_5/ext-all.js'));
 //  echo $this->headLink()->setStylesheet('/css/style01.css');
 // echo $this->headLink()->setStylesheet('/css/theme-triton/theme-triton-all.css');
 //echo $this->headLink()->setStylesheet('/css/ext-theme-gray-all2.css');
@@ -11,87 +15,84 @@
   //echo $this->headLink()->appendStylesheet('/css/theme-ios-all.css');
   echo $this->headLink()
                   //->appendStylesheet($this->baseUrl().'/css/theme-ios-all.css');
-                  //->prependStylesheet('/css/ext-all.css');
+                  //->prependStylesheet('/css/ext-all.css')
+                  //->prependStylesheet('/js/extjs_6_5/theme-classic/theme-classic-all-debug.scss')
+
                   ->prependStylesheet('/css/styles-min.css')
                   ->prependStylesheet('/css/ext-theme-gray-all2.css')
                   ->prependStylesheet('/css/theme-triton/theme-triton-all.css');
-                  
+
+                  //Alegra styles
+                  /*
+                  ->prependStylesheet('/css/style01.css')
+                  ->prependStylesheet('/css/style02.css')
+                  ->prependStylesheet('/css/style03.css')
+                  ->prependStylesheet('/css/style04.css')
+                  ->prependStylesheet('/css/style05.css')
+                  ->prependStylesheet('/css/style06.css')
+                  ->prependStylesheet('/css/style07.css')
+                  ->prependStylesheet('/css/style08.css')
+                  ->prependStylesheet('/css/style09.css')
+                  ->prependStylesheet('/css/style10.css');
+                  */
+                  //->prependStylesheet('/css/ext-all-apollo.css');
+
 
   //echo $this->layout()->scriptTags = '<script>alert("here\'s my" + "test")</script>';
-  echo $this->layout()->content;
+
 
 ?>
+</head>
+<body>
 
-<script>
+  <script>
   var menu = Ext.create('Ext.menu.Menu', {
       plain: true,
-      floating: false,  // usually you want this set to True (default)
+      layout: 'hbox',
+      floating: false,
+      flex: true,
       style: {
-           overflow: 'visible'     // For the Combo popup
+           overflow: 'visible'
        },
       items: [{
-          text: 'plain item 1'
+          text: 'Inicio'
       },{
-          text: 'plain item 2'
+          text: 'Ingresos'
       },{
-          text: 'plain item 3'
-      }],
-
-      //renderTo: document.body
-  });
-
-   Ext.create('Ext.toolbar.Toolbar',{
-        height   : 50,
-        items:[{
-          text: 'menu',
-          menu: menu
-        },{
-          text: 'Button'
-        }
-        ],
-        renderTo: document.body
-      });
-
-      Ext.create('Ext.toolbar.Toolbar', {
-    renderTo: document.body,
-    width: 400,
-    items: [{
-            text: 'Button'
-        }, {
-            xtype: 'splitbutton',
-            text: 'Split Button'
-        },
-        '->', {
-            xtype: 'textfield',
-            name: 'field1',
-            emptyText: 'enter search term'
-        }
-    ]
-});
-
-
-  /*  tb.render('toolbar');
-  tb.suspendLayouts();
-  tb.add({
-    text: "asd",
-    menu: menu
-  });
-  tb.resumeLayouts(true);*/
-
-
-  /*Ext.create({
-
-    text: 'OK',
-    menu:[{
-      text: "item1"
-    },{
-      text: "item2",
-      menu:[{
-        text: "subitem"
+          text: 'Gastos'
+      },{
+          text: 'Contactos',
+          menu:[{
+            text: 'Todos'
+          },{
+            text: 'Clientes',
+            handler: function() {
+                window.location = '/client/';
+            }
+          },{
+            text: 'Proveedores'
+          }]
+      },{
+          text: 'Inventario'
+      },{
+          text: 'Bancos'
+      },{
+          text: 'Categorías'
+      },{
+          text: 'Reportes'
+      },{
+          xtype: 'tbspacer',
+          width: '100px'
+      },{
+          text: 'Nuevo'
       }]
-    }],
 
-    renderTo: Ext.getBody()
-  });*/
-</script>
-</head>
+      ,renderTo: document.body
+      ,region: 'north'
+  });
+  </script>
+
+  <?php  echo $this->layout()->content; ?>
+
+</body>
+</html>
