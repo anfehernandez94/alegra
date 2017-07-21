@@ -1,5 +1,64 @@
-<?php
+<script>
 
-echo $this->form;
 
-?>
+  var spacer = {
+                 xtype: 'tbspacer',
+                 height: '25px',
+               };
+
+  var form = Ext.create('Ext.form.Panel', {
+      title: 'Editar cliente',
+      //flex: 1,
+      //renderTo: Ext.getBody(),
+      items: [{
+          xtype: 'textfield',
+          name: 'name',
+          fieldLabel: 'Name',
+          //width: '100px',
+          allowBlank: false  // requires a non-empty value
+      }, {
+          xtype: 'textfield',
+          name: 'email',
+          fieldLabel: 'Email Address',
+          vtype: 'email'  // requires value to be a valid email address format
+      }],
+      buttons: [{
+            text: 'Guardar',
+            handler: function() {
+                var form = this.up('form').getForm();
+                if (form.isValid()) {
+                    form.submit({
+                        success: function(form, action) {
+                           Ext.Msg.alert('Success', action.result.message);
+                        },
+                        failure: function(form, action) {
+                            Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
+                        }
+                    });
+                } else {
+                    Ext.Msg.alert( "Error!", "Your form is invalid!" );
+                }
+            }
+      }]
+  });
+
+  Ext.define('Main', {
+      extend: 'Ext.container.Container',
+      xtype: 'app-main'
+      ,items: [spacer,
+               form,
+               spacer]
+  });
+
+
+  Ext.application({
+      name: 'Clients',
+
+      launch : function() {
+          Ext.create("Main", {
+              renderTo : Ext.getBody()
+          });
+      }
+  });
+
+</script>

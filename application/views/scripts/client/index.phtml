@@ -2,7 +2,7 @@
 
 	<script>
 		var clientData = <?= Zend_Json::encode($this->entries) ?>;
-		//console.log(clientData);
+
 		Ext.require([
 		    'Ext.grid.*',
 		    'Ext.data.*',
@@ -15,14 +15,15 @@
 		Ext.define('ClientModel', {
 				extend: 'Ext.data.Model',
 				fields: [
-						/*{ name: 'selected', type: 'bool' },*/
-						'id',
-						'name',
-						'nit',
-						'tel01',
-						'comment'
+						{name: 'id', type: 'int'},
+						{name: 'name', type: 'string'},
+						{name: 'nit', type: 'string'},
+						{name: 'tel01', type: 'string'},
+						{name: 'comment', type: 'string'}
 				]
 		});
+
+		//clientData = [{id: 1, name: 'Juan', nit: '123', comment:'Comment'}];
 
 		var store = Ext.create('Ext.data.Store', {
 				storeId: 'clientStore',
@@ -41,6 +42,8 @@
 	      layout: 'hbox',
 	      floating: false,
 	      flex: true,
+				border: false,
+				margin: '10 25 10 25',
 	      style: {
 	           overflow: 'visible'
 	       },
@@ -85,6 +88,9 @@
 				align : 'center',
 				width: '85%',
 				floating: false,
+				flex: 1,
+				border: false,
+				margin: '10 25 10 25',
 				style: {
 						 overflow: 'visible'
 				 },
@@ -123,22 +129,29 @@
 								icon: "/images/zoom.png",
 								text: "zoom",
 								tooltip: "Ver",
-								handler: function() {
-										console.log(grid.getStore().data.length);
-										//var record = grid.getStore().getAt(0);
-										//console.log(record.data.name);
-										var record = grid.getSelectionModel().getSelected();
-												//index = grid.store.indexOf(record);
-										console.log(record);
-										var pos = grid.getSelectionModel().getSelection();
-										console.log(pos);
+								stopSelection: false,
+								handler: function(grid, rowIndex, colIndex) {
+										console.log("s: " + grid.store.getAt(rowIndex).data.name);
 								}
 							},{
 								icon: "/images/page_edit.png",
 								text: "edit",
 								tooltip: "Editar",
-								handler: function() {
-										window.location = '/client/edit';
+								handler: function(grid, rowIndex, colIndex) {
+										var id = grid.store.getAt(rowIndex).data.id;
+										window.location = '/client/edit?id='+id;
+										/*
+										Ext.Ajax.request({
+										    url: '/client/edit',
+										    params: {
+										        id: id
+										    },
+										    success: function(response){
+										        var text = response.responseText;
+														console.log(id);
+										        // process server response here
+										    }
+										})*/
 								}
 							},{
 								icon: "/images/delete.png",

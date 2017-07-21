@@ -1,0 +1,198 @@
+<script>
+	var clientData = <?= Zend_Json::encode($this->entries) ?>;
+
+  var spacer = {
+                 xtype: 'tbspacer',
+                 height: '25px',
+               };
+
+  var form = Ext.create('Ext.form.Panel', {
+      title: 'Editar cliente',
+			layout: 'hbox',
+			bodyBorder: false,
+			margin: '10 25 10 25',
+			defaults: {
+					anchor: '100%'
+			},
+      //flex: 1,
+      //renderTo: Ext.getBody(),
+      items: [{
+			   xtype: 'form',
+			   layout: 'anchor',
+			   labelAlign: 'top',
+				 flex: 1,
+				 border: false,
+				 margin: '10 25 10 25',
+		   items: [{
+		          xtype: 'textarea',
+		          name: 'name',
+		          fieldLabel: 'Nombre',
+							value: clientData.name,
+		          allowBlank: false
+		      }, {
+		          xtype: 'textarea',
+		          name: 'nit',
+		          fieldLabel: 'NIT',
+							value: clientData.nit,
+		          allowBlank: true
+		      },{
+		          xtype: 'textarea',
+		          name: 'address',
+		          fieldLabel: 'Dirección',
+							value: clientData.address,
+		          allowBlank: true
+		      },{
+		          xtype: 'textarea',
+		          name: 'city',
+		          fieldLabel: 'Ciudad',
+							value: clientData.city,
+		          allowBlank: true
+		      },{
+		          xtype: 'textarea',
+		          name: 'email',
+		          fieldLabel: 'Email Address',
+		          vtype: 'email',
+							allowBlank: true
+		      },{
+		          xtype: 'textarea',
+		          name: 'tel01',
+		          fieldLabel: 'Teléfono 01',
+							value: clientData.tel01,
+		          allowBlank: true
+		      },{
+		          xtype: 'textarea',
+		          name: 'tel02',
+		          fieldLabel: 'Teléfono 02',
+							value: clientData.tel02,
+		          allowBlank: true
+		      },{
+		          xtype: 'textarea',
+		          name: 'fax',
+		          fieldLabel: 'Fax',
+							value: clientData.fax,
+		          allowBlank: true
+		      },{
+		          xtype: 'textarea',
+		          name: 'phone',
+		          fieldLabel: 'Celular',
+							value: clientData.phone,
+		          allowBlank: true
+		      }]
+				},{
+					xtype: 'tbspacer',
+					width: '15px'
+				},{
+				   xtype: 'form',
+				   layout: 'anchor',
+				   labelAlign: 'top',
+					 flex: 1,
+					 border: false,
+					 margin: '10 25 10 25',
+				   items: [{
+				          xtype: 'combobox',
+				          name: 'price_list',
+				          fieldLabel: 'Lista de precios',
+									value: clientData.price_list,
+				          allowBlank: true
+				      },{
+				          xtype: 'combobox',
+				          name: 'seller',
+				          fieldLabel: 'Vendedor',
+									value: clientData.seller,
+				          allowBlank: true
+				      },{
+				          xtype: 'combobox',
+				          name: 'payment_term',
+				          fieldLabel: 'Términos de pago',
+									value: clientData.payment_term,
+				          allowBlank: true
+				      },{
+				          xtype: 'checkbox',
+				          name: 'client',
+				          fieldLabel: 'Cliente',
+									value: clientData.client,
+				          allowBlank: true
+				      },{
+				          xtype: 'checkbox',
+				          name: 'provider',
+				          fieldLabel: 'Provider',
+									value: clientData.provider,
+				          allowBlank: true
+				      },{
+				          xtype: 'textarea',
+				          name: 'comment',
+				          fieldLabel: 'Observaciones',
+									value: clientData.comment,
+				          allowBlank: true
+				      },{
+				          xtype: 'checkbox',
+				          name: 'account_status',
+				          fieldLabel: 'Incluir estado de cuenta',
+									value: clientData.account_status,
+				          allowBlank: true
+				      }]}],
+			url: '/client/edit',
+			method: 'POST',
+      buttons: [{
+            text: 'Guardar',
+            handler: function() {
+                var form = this.up('form').getForm();
+
+                if (form.isValid()) {
+										console.log("form valid");
+                    form.submit({
+												method: 'POST',
+												params:{
+														id: clientData.id
+												},
+												success: function(data) {
+													 Ext.Msg.alert('Success', data);
+												},
+												failure: function(data) {
+														Ext.Msg.alert('Fail');
+														console.log(data);
+												}/*
+                        success: function(form, action) {
+                           Ext.Msg.alert('Success', action.result.message);
+                        },
+                        failure: function(form, action) {
+                            Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
+														console.log(form);
+														console.log(action);
+                        }*/
+                    });
+                } else {
+                    Ext.Msg.alert( "Favor revise los campos del formulario" );
+                }
+								window.location = '/client/index';
+            	}
+      		},{
+	            text: 'Cancelar',
+	            handler: function() {
+	                window.location = '/client/';
+	            	}
+	      		}]
+  });
+
+
+
+  Ext.define('Main', {
+      extend: 'Ext.container.Container',
+      xtype: 'app-main'
+      ,items: [spacer,
+               form,
+               spacer]
+  });
+
+
+  Ext.application({
+      name: 'Clients',
+
+      launch : function() {
+          Ext.create("Main", {
+              renderTo : Ext.getBody()
+          });
+      }
+  });
+
+</script>

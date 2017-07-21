@@ -31,23 +31,35 @@ class Application_Model_ClientMapper
 
 	public function updateClient($client, $id)
 	{
-		$this->getDbTable()->update($client, $id);
+		$this->getDbTable()->update($client, "id=$id");
 	}
 
 	public function fetchAll()
-    {
-        $resultSet = $this->getDbTable()->fetchAll();
-        $entries   = array();
-        foreach ($resultSet as $row) {
-            $entry = new Application_Model_Client();
-            $entry	->setId($row->id)
-										->setName($row->name)
-										->setNit($row->nit)
-										->setTel01($row->tel01)
-										->setComment($row->comment);
-            $entries[] = $entry->convert2Array();
-        }
-        return $entries;
-    }
+  {
+      $resultSet = $this->getDbTable()->fetchAll();
+      $entries   = array();
+      foreach ($resultSet as $row) {
+          $entry = new Application_Model_Client();
+          $entry	->setId(htmlentities($row->id))
+									->setName(htmlentities($row->name))
+									->setNit(htmlentities($row->nit))
+									->setTel01(htmlentities($row->tel01))
+									->setComment(htmlentities($row->comment));
+          $entries[] = $entry->convert2Array();
+      }
+      return $entries;
+  }
+
+	public function fetchRowById($id){
+
+			$select = $this->getDbTable()->fetchAll("id=".$id);
+			if(empty($select)){
+					return false;
+			}
+			$arr_reverse = array_reverse((array)$select);
+			$clientRaw = array_pop($arr_reverse)[0];
+			//$client = new Application_Model_Client($clientRaw);
+			return $clientRaw;
+	}
 
 }

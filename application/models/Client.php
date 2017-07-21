@@ -34,7 +34,11 @@ class Application_Model_Client
 			foreach ($options as $key => $value) {
 					$method = 'set' . ucfirst($key);
 					if (in_array($method, $methods)) {
-							$this->$method($value);
+							if(empty($value)){
+								$this->$method(NULL);
+							}else{
+								$this->$method($value);
+							}
 					}
 			}
 			return $this;
