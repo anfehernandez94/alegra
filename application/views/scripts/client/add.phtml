@@ -1,6 +1,5 @@
 <script>
 
-
   var spacer = {
                  xtype: 'tbspacer',
                  height: '25px',
@@ -8,39 +7,145 @@
 
   var form = Ext.create('Ext.form.Panel', {
       title: 'Editar cliente',
+			layout: 'hbox',
+			bodyBorder: false,
+			margin: '10 25 10 25',
+			defaults: {
+					anchor: '100%'
+			},
       //flex: 1,
       //renderTo: Ext.getBody(),
       items: [{
-          xtype: 'textfield',
-          name: 'name',
-          fieldLabel: 'Name',
-          //width: '100px',
-          allowBlank: false  // requires a non-empty value
-      }, {
-          xtype: 'textfield',
-          name: 'email',
-          fieldLabel: 'Email Address',
-          vtype: 'email'  // requires value to be a valid email address format
-      }],
+			   xtype: 'form',
+			   layout: 'anchor',
+			   labelAlign: 'top',
+				 flex: 1,
+				 border: false,
+				 margin: '10 25 10 25',
+		   items: [{
+		          xtype: 'textarea',
+		          name: 'name',
+		          fieldLabel: 'Nombre',
+		          allowBlank: false
+		      }, {
+		          xtype: 'textarea',
+		          name: 'nit',
+		          fieldLabel: 'NIT',
+		          allowBlank: true
+		      },{
+		          xtype: 'textarea',
+		          name: 'address',
+		          fieldLabel: 'Dirección',
+		          allowBlank: true
+		      },{
+		          xtype: 'textarea',
+		          name: 'city',
+		          fieldLabel: 'Ciudad',
+		          allowBlank: true
+		      },{
+		          xtype: 'textarea',
+		          name: 'email',
+		          fieldLabel: 'Email Address',
+		          vtype: 'email',
+							allowBlank: true
+		      },{
+		          xtype: 'textarea',
+		          name: 'tel01',
+		          fieldLabel: 'Teléfono 01',
+		          allowBlank: true
+		      },{
+		          xtype: 'textarea',
+		          name: 'tel02',
+		          fieldLabel: 'Teléfono 02',
+		          allowBlank: true
+		      },{
+		          xtype: 'textarea',
+		          name: 'fax',
+		          fieldLabel: 'Fax',
+		          allowBlank: true
+		      },{
+		          xtype: 'textarea',
+		          name: 'phone',
+		          fieldLabel: 'Celular',
+		          allowBlank: true
+		      }]
+				},{
+					xtype: 'tbspacer',
+					width: '15px'
+				},{
+				   xtype: 'form',
+				   layout: 'anchor',
+				   labelAlign: 'top',
+					 flex: 1,
+					 border: false,
+					 margin: '10 25 10 25',
+				   items: [{
+				          xtype: 'combobox',
+				          name: 'price_list',
+				          fieldLabel: 'Lista de precios',
+				          allowBlank: true
+				      },{
+				          xtype: 'combobox',
+				          name: 'seller',
+				          fieldLabel: 'Vendedor',
+				          allowBlank: true
+				      },{
+				          xtype: 'combobox',
+				          name: 'payment_term',
+				          fieldLabel: 'Términos de pago',
+				          allowBlank: true
+				      },{
+				          xtype: 'checkbox',
+				          name: 'client',
+				          fieldLabel: 'Cliente',
+				          allowBlank: true
+				      },{
+				          xtype: 'checkbox',
+				          name: 'provider',
+				          fieldLabel: 'Provider',
+				          allowBlank: true
+				      },{
+				          xtype: 'textarea',
+				          name: 'comment',
+				          fieldLabel: 'Observaciones',
+				          allowBlank: true
+				      },{
+				          xtype: 'checkbox',
+				          name: 'account_status',
+				          fieldLabel: 'Incluir estado de cuenta',
+				          allowBlank: true
+				      }]}],
+			url: '/client/add',
+			method: 'POST',
       buttons: [{
             text: 'Guardar',
             handler: function() {
                 var form = this.up('form').getForm();
                 if (form.isValid()) {
                     form.submit({
-                        success: function(form, action) {
-                           Ext.Msg.alert('Success', action.result.message);
-                        },
-                        failure: function(form, action) {
-                            Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
-                        }
+												method: 'POST',
+												success: function(data) {
+													 Ext.Msg.alert('Cliente creado');
+													 window.location = '/client/';
+												},
+												failure: function(data) {
+														Ext.Msg.alert('Cliente creado.');
+														window.location = '/client/';
+												}
                     });
                 } else {
-                    Ext.Msg.alert( "Error!", "Your form is invalid!" );
+                    Ext.Msg.alert( "Favor revise los campos del formulario" );
                 }
-            }
-      }]
+            	}
+      		},{
+	            text: 'Cancelar',
+	            handler: function() {
+	                window.location = '/client/';
+	            	}
+	      		}]
   });
+
+
 
   Ext.define('Main', {
       extend: 'Ext.container.Container',

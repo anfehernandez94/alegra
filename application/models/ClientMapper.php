@@ -34,6 +34,11 @@ class Application_Model_ClientMapper
 		$this->getDbTable()->update($client, "id=$id");
 	}
 
+	public function deleteClient($id)
+	{
+		$this->getDbTable()->delete("id=$id");
+	}
+
 	public function fetchAll()
   {
       $resultSet = $this->getDbTable()->fetchAll();

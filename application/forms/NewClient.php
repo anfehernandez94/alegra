@@ -80,11 +80,6 @@ class Application_Form_NewClient extends Zend_Form
           'id' => 'save',
         ));
 
-        $linkAdd = new Zend_Form_Element_Hidden('add');
-        $linkAdd->setLabel('<a href="add">Add</a>');
-        $linkAdd->getDecorator('label')->setOption('escape', false);
-
-
     }
 
 

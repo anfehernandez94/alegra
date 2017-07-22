@@ -23,7 +23,6 @@
 				]
 		});
 
-		//clientData = [{id: 1, name: 'Juan', nit: '123', comment:'Comment'}];
 
 		var store = Ext.create('Ext.data.Store', {
 				storeId: 'clientStore',
@@ -64,22 +63,6 @@
 	      ,region: 'north'
 	  });
 
-		var menuButtons = Ext.create('Ext.menu.Menu',{
-			plain: true,
-			layout: 'hbox',
-			floating: false,
-			flex: true,
-			style: {
-					 overflow: 'visible'
-			 },
-			items: [{
-					text: 'Edit',
-					xtype: 'button',
-
-			}]
-		})
-
-
     var grid = Ext.create('Ext.grid.Panel', {
 			  //renderTo: document.body,
 				region: 'center',
@@ -101,10 +84,9 @@
 	            dataIndex: 'selected',
 							flex : 0
 	        },{
-            header: 'Name',
+            header: 'Nombre',
             dataIndex: 'name',
 						text: 'Name',
-						//xtype: 'checkcolumn',
             flex: 1
 
         }, {
@@ -113,18 +95,20 @@
 						sortable: true
 						,flex: 1
         }, {
-            header: 'Telephone 01',
+            header: 'Teléfono 01',
             dataIndex: 'tel01',
 						sortable: true
 						,flex: 1
         }, {
-            header: 'Comments',
+            header: 'Observaciones',
             dataIndex: 'comment',
 						sortable: true
 						,flex: 1
         },{
 					header: 'Acciones',
 					xtype: 'actioncolumn',
+					align: 'center',
+					layout: 'hbox',
 					items: [{
 								icon: "/images/zoom.png",
 								text: "zoom",
@@ -139,7 +123,7 @@
 								tooltip: "Editar",
 								handler: function(grid, rowIndex, colIndex) {
 										var id = grid.store.getAt(rowIndex).data.id;
-										window.location = '/client/edit?id='+id;
+										window.location = '/client/edit?id='+ escape(id);
 										/*
 										Ext.Ajax.request({
 										    url: '/client/edit',
@@ -156,7 +140,32 @@
 							},{
 								icon: "/images/delete.png",
 								text: "delete",
-								tooltip: "Eliminar"
+								tooltip: "Eliminar",
+								handler: function(grid, rowIndex, colIndex) {
+										var id = grid.store.getAt(rowIndex).data.id;
+										var name = grid.store.getAt(rowIndex).data.name;
+										var confirmWin = Ext.MessageBox;
+										/*Ext.Msg.confirm('Confirmación', '¿Está seguro de eliminar a '+ name +' como cliente?',
+										function(btn){
+											if(btn === 'yes'){
+												window.location = '/client/delete?id=' + escape(id);
+											}
+										});*/
+										Ext.Msg.show({
+											title: 'Confirmación',
+											msg: '¿Está seguro de eliminar a '+ name +' como cliente?',
+											buttons: Ext.Msg.YESNO,
+											buttonText: {
+												yes: 'Si'
+											},
+											fn: function(btnValue, inputText, showConfig){
+												if(btnValue === 'yes'){
+													window.location = '/client/delete?id=' + escape(id);
+												}
+											}
+										});
+
+								}
 					}],
 					flex: 1
 				}]

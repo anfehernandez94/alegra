@@ -1,6 +1,6 @@
 <script>
 	var clientData = <?= Zend_Json::encode($this->entries) ?>;
-
+	console.log(clientData);
   var spacer = {
                  xtype: 'tbspacer',
                  height: '25px',
@@ -52,6 +52,7 @@
 		          name: 'email',
 		          fieldLabel: 'Email Address',
 		          vtype: 'email',
+							value: clientData.email,
 							allowBlank: true
 		      },{
 		          xtype: 'textarea',
@@ -110,13 +111,13 @@
 				          xtype: 'checkbox',
 				          name: 'client',
 				          fieldLabel: 'Cliente',
-									value: clientData.client,
+									value: (clientData.client == 1) ? 'on' : 0,
 				          allowBlank: true
 				      },{
 				          xtype: 'checkbox',
 				          name: 'provider',
 				          fieldLabel: 'Provider',
-									value: clientData.provider,
+									value: (clientData.provider == 1) ? 'on' : 0,
 				          allowBlank: true
 				      },{
 				          xtype: 'textarea',
@@ -128,7 +129,7 @@
 				          xtype: 'checkbox',
 				          name: 'account_status',
 				          fieldLabel: 'Incluir estado de cuenta',
-									value: clientData.account_status,
+									value: (clientData.account_status == 1) ? 'on' : 0,
 				          allowBlank: true
 				      }]}],
 			url: '/client/edit',
@@ -137,34 +138,24 @@
             text: 'Guardar',
             handler: function() {
                 var form = this.up('form').getForm();
-
                 if (form.isValid()) {
-										console.log("form valid");
                     form.submit({
 												method: 'POST',
 												params:{
 														id: clientData.id
 												},
 												success: function(data) {
-													 Ext.Msg.alert('Success', data);
+													 Ext.Msg.alert('Cliente actualizado');
+													 window.location = '/client/';
 												},
 												failure: function(data) {
-														Ext.Msg.alert('Fail');
-														console.log(data);
-												}/*
-                        success: function(form, action) {
-                           Ext.Msg.alert('Success', action.result.message);
-                        },
-                        failure: function(form, action) {
-                            Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
-														console.log(form);
-														console.log(action);
-                        }*/
+														Ext.Msg.alert('Cliente actualizado.');
+														window.location = '/client/';
+												}
                     });
                 } else {
                     Ext.Msg.alert( "Favor revise los campos del formulario" );
                 }
-								window.location = '/client/index';
             	}
       		},{
 	            text: 'Cancelar',
