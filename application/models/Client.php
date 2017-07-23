@@ -45,12 +45,12 @@ class Application_Model_Client
 	}
 
 	public function convert2Array(){
-			$clients = array();
+			$object = array();
 			foreach ($this as $key => $value) {
 					$key = substr($key, 1);
-					$clients[$key] = $value;
+					$object[$key] = $value;
 			}
-			return $clients;
+			return $object;
 	}
 
   public function setId($id)

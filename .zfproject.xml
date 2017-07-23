@@ -30,9 +30,15 @@
         <modelFile modelName="Client"/>
         <dbTableDirectory>
           <dbTableFile dbTableName="Client"/>
+          <dbTableFile dbTableName="PaymentTerm"/>
+          <dbTableFile dbTableName="PriceList"/>
+          <dbTableFile dbTableName="Seller"/>
         </dbTableDirectory>
         <modelFile modelName="Clientmapper"/>
         <modelFile modelName="ClientMapper"/>
+        <modelFile modelName="PaymentTerm"/>
+        <modelFile modelName="PriceList"/>
+        <modelFile modelName="Seller"/>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
       <servicesDirectory enabled="false"/>

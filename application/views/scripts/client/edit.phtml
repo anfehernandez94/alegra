@@ -1,6 +1,47 @@
 <script>
-	var clientData = <?= Zend_Json::encode($this->entries) ?>;
-	console.log(clientData);
+	var dataServer = <?= Zend_Json::encode($this->entries) ?>;
+
+	var storeClient = dataServer['client'];
+
+	var storePriceList = Ext.create('Ext.data.Store', {
+			storeId: 'storePriceList',
+			autoLoad: true,
+			proxy: {
+					type: 'memory',
+					reader:{
+						type: 'json',
+						rootProperty: 'price_list'
+					}
+			},
+			data: dataServer
+	});
+
+	var storePaymentTerm = Ext.create('Ext.data.Store', {
+			storeId: 'storePaymentTerm',
+			autoLoad: true,
+			proxy: {
+					type: 'memory',
+					reader:{
+						type: 'json',
+						rootProperty: 'payment_term'
+					}
+			},
+			data: dataServer
+	});
+
+	var storeSeller = Ext.create('Ext.data.Store', {
+			storeId: 'storeSeller',
+			autoLoad: true,
+			proxy: {
+					type: 'memory',
+					reader:{
+						type: 'json',
+						rootProperty: 'seller'
+					}
+			},
+			data: dataServer
+	});
+
   var spacer = {
                  xtype: 'tbspacer',
                  height: '25px',
@@ -27,56 +68,56 @@
 		          xtype: 'textarea',
 		          name: 'name',
 		          fieldLabel: 'Nombre',
-							value: clientData.name,
+							value: storeClient.name,
 		          allowBlank: false
 		      }, {
 		          xtype: 'textarea',
 		          name: 'nit',
 		          fieldLabel: 'NIT',
-							value: clientData.nit,
+							value: storeClient.nit,
 		          allowBlank: true
 		      },{
 		          xtype: 'textarea',
 		          name: 'address',
 		          fieldLabel: 'Dirección',
-							value: clientData.address,
+							value: storeClient.address,
 		          allowBlank: true
 		      },{
 		          xtype: 'textarea',
 		          name: 'city',
 		          fieldLabel: 'Ciudad',
-							value: clientData.city,
+							value: storeClient.city,
 		          allowBlank: true
 		      },{
 		          xtype: 'textarea',
 		          name: 'email',
 		          fieldLabel: 'Email Address',
 		          vtype: 'email',
-							value: clientData.email,
+							value: storeClient.email,
 							allowBlank: true
 		      },{
 		          xtype: 'textarea',
 		          name: 'tel01',
 		          fieldLabel: 'Teléfono 01',
-							value: clientData.tel01,
+							value: storeClient.tel01,
 		          allowBlank: true
 		      },{
 		          xtype: 'textarea',
 		          name: 'tel02',
 		          fieldLabel: 'Teléfono 02',
-							value: clientData.tel02,
+							value: storeClient.tel02,
 		          allowBlank: true
 		      },{
 		          xtype: 'textarea',
 		          name: 'fax',
 		          fieldLabel: 'Fax',
-							value: clientData.fax,
+							value: storeClient.fax,
 		          allowBlank: true
 		      },{
 		          xtype: 'textarea',
 		          name: 'phone',
 		          fieldLabel: 'Celular',
-							value: clientData.phone,
+							value: storeClient.phone,
 		          allowBlank: true
 		      }]
 				},{
@@ -93,43 +134,52 @@
 				          xtype: 'combobox',
 				          name: 'price_list',
 				          fieldLabel: 'Lista de precios',
-									value: clientData.price_list,
-				          allowBlank: true
+									value: storeClient.price_list,
+				          allowBlank: true,
+									store: storePriceList,
+									displayField: 'description',
+									valueField: 'id'
 				      },{
 				          xtype: 'combobox',
 				          name: 'seller',
 				          fieldLabel: 'Vendedor',
-									value: clientData.seller,
-				          allowBlank: true
+									value: storeClient.seller,
+				          allowBlank: true,
+									store: storeSeller,
+									displayField: 'name',
+									valueField: 'id'
 				      },{
 				          xtype: 'combobox',
 				          name: 'payment_term',
 				          fieldLabel: 'Términos de pago',
-									value: clientData.payment_term,
-				          allowBlank: true
+									value: storeClient.payment_term,
+				          allowBlank: true,
+									store: storePaymentTerm,
+									displayField: 'description',
+									valueField: 'id'
 				      },{
 				          xtype: 'checkbox',
 				          name: 'client',
 				          fieldLabel: 'Cliente',
-									value: (clientData.client == 1) ? 'on' : 0,
+									value: (storeClient.client == 1) ? 'on' : 0,
 				          allowBlank: true
 				      },{
 				          xtype: 'checkbox',
 				          name: 'provider',
 				          fieldLabel: 'Provider',
-									value: (clientData.provider == 1) ? 'on' : 0,
+									value: (storeClient.provider == 1) ? 'on' : 0,
 				          allowBlank: true
 				      },{
 				          xtype: 'textarea',
 				          name: 'comment',
 				          fieldLabel: 'Observaciones',
-									value: clientData.comment,
+									value: storeClient.comment,
 				          allowBlank: true
 				      },{
 				          xtype: 'checkbox',
 				          name: 'account_status',
 				          fieldLabel: 'Incluir estado de cuenta',
-									value: (clientData.account_status == 1) ? 'on' : 0,
+									value: (storeClient.account_status == 1) ? 'on' : 0,
 				          allowBlank: true
 				      }]}],
 			url: '/client/edit',
@@ -142,7 +192,7 @@
                     form.submit({
 												method: 'POST',
 												params:{
-														id: clientData.id
+														id: storeClient.id
 												},
 												success: function(data) {
 													 Ext.Msg.alert('Cliente actualizado');

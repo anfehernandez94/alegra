@@ -27,13 +27,17 @@
 		var store = Ext.create('Ext.data.Store', {
 				storeId: 'clientStore',
 				model: 'ClientModel',
+				autoLoad: true,
 				proxy: {
 						type: 'memory',
 						reader:{
-							type: 'json'
+							type: 'json',
+							rootProperty: 'Clients',
+							totalProperty: 'Total'
 						}
 				},
-				data: clientData
+				data: clientData,
+				pageSize: 20
 		});
 
 		var menu = Ext.create('Ext.menu.Menu', {
@@ -58,18 +62,17 @@
 	          xtype: 'tbspacer',
 						width: '25px'
 	      }]
-
-	      //,renderTo: document.body
 	      ,region: 'north'
 	  });
 
     var grid = Ext.create('Ext.grid.Panel', {
-			  //renderTo: document.body,
+			  title: 'Clientes',
 				region: 'center',
         store:  store,
 				plain: false,
 				align : 'center',
 				width: '85%',
+				height: 500,
 				floating: false,
 				flex: 1,
 				border: false,
@@ -82,7 +85,7 @@
 							//style: 'margin: 1em auto 2em; width: 85%; height:30px;',
 	            xtype: 'checkcolumn',
 	            dataIndex: 'selected',
-							flex : 0
+							width: 20
 	        },{
             header: 'Nombre',
             dataIndex: 'name',
@@ -109,6 +112,7 @@
 					xtype: 'actioncolumn',
 					align: 'center',
 					layout: 'hbox',
+					flex: 0,
 					items: [{
 								icon: "/images/zoom.png",
 								text: "zoom",
@@ -124,18 +128,6 @@
 								handler: function(grid, rowIndex, colIndex) {
 										var id = grid.store.getAt(rowIndex).data.id;
 										window.location = '/client/edit?id='+ escape(id);
-										/*
-										Ext.Ajax.request({
-										    url: '/client/edit',
-										    params: {
-										        id: id
-										    },
-										    success: function(response){
-										        var text = response.responseText;
-														console.log(id);
-										        // process server response here
-										    }
-										})*/
 								}
 							},{
 								icon: "/images/delete.png",
@@ -145,12 +137,6 @@
 										var id = grid.store.getAt(rowIndex).data.id;
 										var name = grid.store.getAt(rowIndex).data.name;
 										var confirmWin = Ext.MessageBox;
-										/*Ext.Msg.confirm('Confirmación', '¿Está seguro de eliminar a '+ name +' como cliente?',
-										function(btn){
-											if(btn === 'yes'){
-												window.location = '/client/delete?id=' + escape(id);
-											}
-										});*/
 										Ext.Msg.show({
 											title: 'Confirmación',
 											msg: '¿Está seguro de eliminar a '+ name +' como cliente?',
@@ -167,8 +153,15 @@
 
 								}
 					}],
-					flex: 1
-				}]
+				}],
+				bbar: Ext.create('Ext.PagingToolbar', {
+					store: store,
+					displayInfo: true,
+					displayMsg: 'Mostrando {0} - {1} de {2}',
+					emptyMsg: "Aún sin clientes, crea el primero con el botón Nuevo Cliente"
+					//inputItemWidth: 2
+				}),
+				flex: 1
     });
 
 
@@ -194,6 +187,7 @@
 	         Ext.create("Main", {
 	             renderTo : Ext.getBody()
 	         });
+					 store.loadPage(1);
 	     }
 	 });
 

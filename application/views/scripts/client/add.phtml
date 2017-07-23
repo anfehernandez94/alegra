@@ -1,5 +1,47 @@
 <script>
 
+  var list  = <?= Zend_Json::encode($this->entries) ?>;
+  console.log(list);
+
+  var storePriceList = Ext.create('Ext.data.Store', {
+      storeId: 'storePriceList',
+      autoLoad: true,
+      proxy: {
+          type: 'memory',
+          reader:{
+            type: 'json',
+            rootProperty: 'price_list'
+          }
+      },
+      data: list
+  });
+
+  var storePaymentTerm = Ext.create('Ext.data.Store', {
+      storeId: 'storePaymentTerm',
+      autoLoad: true,
+      proxy: {
+          type: 'memory',
+          reader:{
+            type: 'json',
+            rootProperty: 'payment_term'
+          }
+      },
+      data: list
+  });
+
+  var storeSeller = Ext.create('Ext.data.Store', {
+      storeId: 'storeSeller',
+      autoLoad: true,
+      proxy: {
+          type: 'memory',
+          reader:{
+            type: 'json',
+            rootProperty: 'seller'
+          }
+      },
+      data: list
+  });
+
   var spacer = {
                  xtype: 'tbspacer',
                  height: '25px',
@@ -83,17 +125,26 @@
 				          xtype: 'combobox',
 				          name: 'price_list',
 				          fieldLabel: 'Lista de precios',
-				          allowBlank: true
+				          allowBlank: true,
+                  store: storePriceList,
+                  displayField: 'description',
+                  valueField: 'id'
 				      },{
 				          xtype: 'combobox',
 				          name: 'seller',
 				          fieldLabel: 'Vendedor',
-				          allowBlank: true
+				          allowBlank: true,
+                  store: storeSeller,
+                  displayField: 'name',
+                  valueField: 'id'
 				      },{
 				          xtype: 'combobox',
 				          name: 'payment_term',
 				          fieldLabel: 'Términos de pago',
-				          allowBlank: true
+				          allowBlank: true,
+                  store: storePaymentTerm,
+                  displayField: 'description',
+                  valueField: 'id'
 				      },{
 				          xtype: 'checkbox',
 				          name: 'client',
@@ -137,11 +188,31 @@
                     Ext.Msg.alert( "Favor revise los campos del formulario" );
                 }
             	}
-      		},{
-	            text: 'Cancelar',
-	            handler: function() {
-	                window.location = '/client/';
-	            	}
+	      		},{
+		            text: 'Guardar y crear otro',
+		            handler: function() {
+		                var form = this.up('form').getForm();
+		                if (form.isValid()) {
+		                    form.submit({
+														method: 'POST',
+														success: function(data) {
+															 Ext.Msg.alert('Cliente creado');
+															 form.reset();
+														},
+														failure: function(data) {
+																Ext.Msg.alert('Cliente creado.');
+																form.reset();
+														}
+		                    });
+		                } else {
+		                    Ext.Msg.alert( "Favor revise los campos del formulario" );
+		                }
+		            	}
+			      		},{
+		            text: 'Cancelar',
+		            handler: function() {
+		                window.location = '/client/';
+		            	}
 	      		}]
   });
 
