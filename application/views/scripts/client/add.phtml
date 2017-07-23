@@ -1,7 +1,6 @@
 <script>
 
   var list  = <?= Zend_Json::encode($this->entries) ?>;
-  console.log(list);
 
   var storePriceList = Ext.create('Ext.data.Store', {
       storeId: 'storePriceList',
@@ -149,11 +148,12 @@
 				          xtype: 'checkbox',
 				          name: 'client',
 				          fieldLabel: 'Cliente',
-				          allowBlank: true
+				          allowBlank: true,
+                  value: 'on'
 				      },{
 				          xtype: 'checkbox',
 				          name: 'provider',
-				          fieldLabel: 'Provider',
+				          fieldLabel: 'Proveedor',
 				          allowBlank: true
 				      },{
 				          xtype: 'textarea',

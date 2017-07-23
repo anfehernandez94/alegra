@@ -6,42 +6,12 @@
 
   echo $this->headScript()
                   ->prependFile($this->baseUrl('js/extjs_6_5\theme-classic\theme-classic-debug.js'))
-                  //->prependFile($this->baseUrl('js/ext-bootstrap.js'));
                   ->prependFile($this->baseUrl('js/extjs_6_5/ext-all.js'));
-//  echo $this->headLink()->setStylesheet('/css/style01.css');
-// echo $this->headLink()->setStylesheet('/css/theme-triton/theme-triton-all.css');
-//echo $this->headLink()->setStylesheet('/css/ext-theme-gray-all2.css');
-//echo $this->headLink()->appendStylesheet('/css/styles-min.css');
-//  echo $this->headLink()->appendStylesheet('/css/theme-triton/theme-triton-all.css');
-  //echo $this->headLink()->appendStylesheet('/css/theme-ios-all.css');
-  echo $this->headLink()
-                  //->appendStylesheet($this->baseUrl().'/css/theme-ios-all.css');
-                  //->prependStylesheet('/css/ext-all.css')
-                  //->prependStylesheet('/js/extjs_6_5/theme-classic/theme-classic-all-debug.scss')
 
+  echo $this->headLink()
                   ->prependStylesheet('/css/styles-min.css')
                   ->prependStylesheet('/css/ext-theme-gray-all2.css')
                   ->prependStylesheet('/css/theme-triton/theme-triton-all.css');
-
-                  //Alegra styles
-                  /*
-                  ->prependStylesheet('/css/style01.css')
-                  ->prependStylesheet('/css/style02.css')
-                  ->prependStylesheet('/css/style03.css')
-                  ->prependStylesheet('/css/style04.css')
-                  ->prependStylesheet('/css/style05.css')
-                  ->prependStylesheet('/css/style06.css')
-                  ->prependStylesheet('/css/style07.css')
-                  ->prependStylesheet('/css/style08.css')
-                  ->prependStylesheet('/css/style09.css')
-                  ->prependStylesheet('/css/style10.css');
-                  */
-                  //->prependStylesheet('/css/ext-all-apollo.css');
-
-
-  //echo $this->layout()->scriptTags = '<script>alert("here\'s my" + "test")</script>';
-
-
 ?>
 </head>
 <body>

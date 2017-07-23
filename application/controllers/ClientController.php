@@ -115,7 +115,7 @@ class ClientController extends Zend_Controller_Action
  {
    if ($this->getRequest()->isGet()) {
       if(isset($_GET['id'])){
-          $id = $_GET['id'];
+          $id = ($_GET['id']);
           if(is_numeric($id)){
               $clientMapper = new Application_Model_ClientMapper();
               $client = $clientMapper->fetchRowById($id);

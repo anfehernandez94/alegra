@@ -87,11 +87,25 @@
 	            dataIndex: 'selected',
 							width: 20
 	        },{
+						//xtype: 'actioncolumn',
             header: 'Nombre',
             dataIndex: 'name',
 						text: 'Name',
-            flex: 1
+            flex: 1,
+						handler: function(){
+								var row = grid.getView().getRow(0);
+								Ext.get(row).highlight();
+						}
+						/*
+						items:[{
+								xtype: 'checkbox'
 
+						},{
+							 xtype: 'displayfield',
+							 fieldLabel: 'Celular',
+  							value: 'phone'
+						}]
+*/
         }, {
             header: 'Nit',
             dataIndex: 'nit',
@@ -119,7 +133,8 @@
 								tooltip: "Ver",
 								stopSelection: false,
 								handler: function(grid, rowIndex, colIndex) {
-										console.log("s: " + grid.store.getAt(rowIndex).data.name);
+										var id = grid.store.getAt(rowIndex).data.id;
+										window.location = '/client/view?id='+ escape(id);
 								}
 							},{
 								icon: "/images/page_edit.png",
@@ -136,7 +151,7 @@
 								handler: function(grid, rowIndex, colIndex) {
 										var id = grid.store.getAt(rowIndex).data.id;
 										var name = grid.store.getAt(rowIndex).data.name;
-										var confirmWin = Ext.MessageBox;
+
 										Ext.Msg.show({
 											title: 'Confirmación',
 											msg: '¿Está seguro de eliminar a '+ name +' como cliente?',
@@ -163,7 +178,18 @@
 				}),
 				flex: 1
     });
+/*
+		grid.on('rowclick', function(thiss, td, cellIndex, record, tr, rowIndex, e, eOpts){
+			//console.log(cellIndex);
 
+			var gridColumnLength = grid.columns.length;
+			for(var i=0; i<gridColumnLength; i++){
+				if(grid.columns[i].tdCls == "selected-row")
+					grid.columns[i].tdCls = "";
+			}
+			grid.columns[cellIndex].tdCls = "selected-row";
+			grid.getView().refresh();
+		})*/
 
 		var spacer = {
 									 xtype: 'tbspacer',

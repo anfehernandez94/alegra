@@ -1,7 +1,5 @@
-
-
-	<script>
-	var dataServer = <?= Zend_Json::encode($this->entries) ?>;
+<script>
+	var dataServer = <?= Zend_Json::encode($this->viewClient) ?>;
 
 	var storeClient = dataServer['client'];
 
@@ -10,9 +8,9 @@
 		    'Ext.data.*',
 		    'Ext.util.*',
 		    'Ext.state.*',
-		    'Ext.form.*'
+		    'Ext.form.*',
+				'Ext.ux.*'
 		]);
-
 
 		var menu = Ext.create('Ext.menu.Menu', {
 	      plain: true,
@@ -25,11 +23,13 @@
 	           overflow: 'visible'
 	       },
 	      items: [{
-	          text: '+Crear factura de venta',
-						xtype: 'button'
+						xtype: 'displayfield',
+						margin: '0 10 0 0',
+						value: storeClient.name,
+				},{
+	          text: '+Crear factura de venta'
 	      },{
-	          text: 'Crear factura de compra',
-						xtype: 'button'
+	          text: '+Crear factura de compra'
 	      },{
 						text: 'Editar',
 						xtype: 'button',
@@ -47,7 +47,88 @@
 	      ,region: 'north'
 	  });
 
-		
+		var panel = Ext.create('Ext.panel.Panel',{
+			title: storeClient.name,
+			region: 'center',
+			plain: false,
+			align : 'center',
+			width: '85%',
+			layout: 'hbox',
+			floating: false,
+			flex: 1,
+			border: true,
+			margin: '10 25 10 25',
+			items:[{
+				 layout: 'anchor',
+				 labelAlign: 'top',
+				 flex: 1,
+				 border: false,
+				 margin: '10 25 10 25',
+				 items:[{
+							xtype: 'displayfield',
+							name: 'nit',
+							fieldLabel: 'NIT',
+							value: storeClient.nit
+					},{
+ 							xtype: 'displayfield',
+ 							name: 'addres',
+ 							fieldLabel: 'Direción',
+ 							value: storeClient.address
+ 					},{
+ 							xtype: 'displayfield',
+ 							name: 'city',
+ 							fieldLabel: 'Ciudad',
+ 							value: storeClient.city
+ 					},{
+ 							xtype: 'displayfield',
+ 							name: 'email',
+ 							fieldLabel: 'Correo electrónico',
+ 							value: storeClient.email
+ 					},{
+ 							xtype: 'displayfield',
+ 							name: 'comment',
+ 							fieldLabel: 'Observaciones',
+ 							value: storeClient.comment
+ 					}]
+				},{
+					xtype: 'tbspacer',
+					width: 15
+				},{
+					//xtype: 'form',
+					layout: 'anchor',
+					labelAlign: 'top',
+					flex: 1,
+					border: false,
+					margin: '10 25 10 25',
+					items:[{
+ 							xtype: 'displayfield',
+ 							name: 'tel01',
+ 							fieldLabel: 'Teléfono 01',
+ 							value: storeClient.tel01
+ 					},{
+ 							xtype: 'displayfield',
+ 							name: 'tel02',
+ 							fieldLabel: 'Teléfono 02',
+ 							value: storeClient.tel02
+ 					},{
+ 							xtype: 'displayfield',
+ 							name: 'fax',
+ 							fieldLabel: 'Fax',
+ 							value: storeClient.fax
+ 					},{
+ 							xtype: 'displayfield',
+ 							name: 'phone',
+ 							fieldLabel: 'Celular',
+ 							value: storeClient.phone
+ 					}]
+				}],
+				buttons:[{
+						text: 'Volver',
+						handler: function() {
+								window.location = '/client/';
+						}
+				}]
+		});
 
 		var spacer = {
 									 xtype: 'tbspacer',
@@ -60,20 +141,17 @@
 	     ,items: [spacer,
 				 				menu,
 								spacer,
-				 				grid ]
+								panel,
+								spacer]
 	 });
 
-
 	 Ext.application({
-	     name: 'Clients',
+	     name: 'ViewClients',
 
 	     launch : function() {
 	         Ext.create("Main", {
 	             renderTo : Ext.getBody()
 	         });
-					 store.loadPage(1);
 	     }
 	 });
-
-
 </script>

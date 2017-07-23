@@ -6466,6 +6466,12 @@ a.x-color-picker-item:hover {
  table-layout:fixed;
  border-collapse:separate
 }
+.selected-row .x-grid-row-selected .x-grid-cell{
+  background-color:#000000;
+}
+.x-grid-row .selected-row{
+   background-color:#e0e0e0;
+}
 .x-grid-row .x-grid-cell {
  color:null;
  font:normal 11px/13px tahoma,arial,verdana,sans-serif;
