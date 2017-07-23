@@ -111,4 +111,38 @@ class ClientController extends Zend_Controller_Action
   }
 
 
+  public function viewAction()
+ {
+   if ($this->getRequest()->isGet()) {
+      if(isset($_GET['id'])){
+          $id = $_GET['id'];
+          if(is_numeric($id)){
+              $clientMapper = new Application_Model_ClientMapper();
+              $client = $clientMapper->fetchRowById($id);
+              if($client){
+                  $paymentTermMapper = new Application_Model_PaymentTermMapper();
+                  $paymentTerm = $paymentTermMapper->fetchAll();
+                  $priceListMapper = new Application_Model_PriceListMapper();
+                  $priceList = $priceListMapper->fetchAll();
+                  $sellerMapper = new Application_Model_SellerMapper();
+                  $seller = $sellerMapper->fetchAll();
+
+                  $this->view->viewClient =  array('client'=>$client,
+                                              'payment_term'=>$paymentTerm,
+                                              'price_list'=>$priceList,
+                                              'seller'=>$seller);
+              }else{
+                  return $this->_helper->redirector('index');
+              }
+          }else{
+              return $this->_helper->redirector('index');
+          }
+      }else{
+          return $this->_helper->redirector('index');
+      }
+   }
+
+ }
+
+
 }

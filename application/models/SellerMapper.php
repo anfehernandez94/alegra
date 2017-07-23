@@ -31,7 +31,7 @@ class Application_Model_SellerMapper
       foreach ($resultSet as $row) {
           $entry = new Application_Model_Seller();
           $entry	->setId(htmlentities($row->id))
-									->setName(htmlentities($row->name));
+									->setName(($row->name));
           $entries[] = $entry->convert2Array();
       }
       return $entries;

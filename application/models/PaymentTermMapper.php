@@ -31,7 +31,7 @@ class Application_Model_PaymentTermMapper
       foreach ($resultSet as $row) {
           $entry = new Application_Model_PaymentTerm();
           $entry	->setId(htmlentities($row->id))
-									->setDescription(htmlentities($row->description));
+									->setDescription(($row->description));
           $entries[] = $entry->convert2Array();
       }
       return $entries;

@@ -1,0 +1,79 @@
+
+
+	<script>
+	var dataServer = <?= Zend_Json::encode($this->entries) ?>;
+
+	var storeClient = dataServer['client'];
+
+		Ext.require([
+		    'Ext.grid.*',
+		    'Ext.data.*',
+		    'Ext.util.*',
+		    'Ext.state.*',
+		    'Ext.form.*'
+		]);
+
+
+		var menu = Ext.create('Ext.menu.Menu', {
+	      plain: true,
+	      layout: 'hbox',
+	      floating: false,
+	      flex: true,
+				border: false,
+				margin: '10 25 10 25',
+	      style: {
+	           overflow: 'visible'
+	       },
+	      items: [{
+	          text: '+Crear factura de venta',
+						xtype: 'button'
+	      },{
+	          text: 'Crear factura de compra',
+						xtype: 'button'
+	      },{
+						text: 'Editar',
+						xtype: 'button',
+						handler: function() {
+								window.location = '/client/edit?id='+storeClient.id;
+						}
+	      },{
+	          text: 'Más acciones',
+						menu:[{
+	            text: 'Adjuntar archivo'
+	          },{
+	            text: 'Ver estado de cuenta'
+	          }]
+	      }]
+	      ,region: 'north'
+	  });
+
+		
+
+		var spacer = {
+									 xtype: 'tbspacer',
+									 height: '25px'
+								 };
+
+	 Ext.define('Main', {
+	     extend: 'Ext.container.Container',
+	     xtype: 'app-main'
+	     ,items: [spacer,
+				 				menu,
+								spacer,
+				 				grid ]
+	 });
+
+
+	 Ext.application({
+	     name: 'Clients',
+
+	     launch : function() {
+	         Ext.create("Main", {
+	             renderTo : Ext.getBody()
+	         });
+					 store.loadPage(1);
+	     }
+	 });
+
+
+</script>

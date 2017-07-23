@@ -31,7 +31,7 @@ class Application_Model_PriceListMapper
 			foreach ($resultSet as $row) {
 					$entry = new Application_Model_PriceList();
 					$entry	->setId(htmlentities($row->id))
-									->setDescription(htmlentities($row->description));
+									->setDescription(($row->description));
 					$entries[] = $entry->convert2Array();
 			}
 			return $entries;
