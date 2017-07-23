@@ -92,41 +92,32 @@
             dataIndex: 'name',
 						text: 'Name',
             flex: 1,
-						handler: function(){
-								var row = grid.getView().getRow(0);
-								Ext.get(row).highlight();
-						}
-						/*
-						items:[{
-								xtype: 'checkbox'
-
-						},{
-							 xtype: 'displayfield',
-							 fieldLabel: 'Celular',
-  							value: 'phone'
-						}]
-*/
+						filter: {text: 'Filtro', type: 'string', dataIndex: 'name'},
         }, {
             header: 'Nit',
             dataIndex: 'nit',
 						sortable: true
-						,flex: 1
+						,flex: 1,
+						filter: {type: 'string', dataIndex: 'nit'},
         }, {
             header: 'Teléfono 01',
             dataIndex: 'tel01',
 						sortable: true
-						,flex: 1
+						,flex: 1,
+						filter: {type: 'string', dataIndex: 'tel01'},
         }, {
             header: 'Observaciones',
             dataIndex: 'comment',
 						sortable: true
-						,flex: 1
+						,flex: 1,
+						filter: {type: 'string', dataIndex: 'comment'},
         },{
 					header: 'Acciones',
 					xtype: 'actioncolumn',
 					align: 'center',
 					layout: 'hbox',
 					flex: 0,
+					filterable: false,
 					items: [{
 								icon: "/images/zoom.png",
 								text: "zoom",
@@ -176,6 +167,9 @@
 					emptyMsg: "Aún sin clientes, crea el primero con el botón Nuevo Cliente"
 					//inputItemWidth: 2
 				}),
+				plugins: [{
+				  ptype: 'gridfilters'
+				}],
 				flex: 1
     });
 /*

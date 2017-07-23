@@ -1,0 +1,215 @@
+
+
+	<script>
+		var clientData = <?= Zend_Json::encode($this->entries) ?>;
+
+		Ext.require([
+		    'Ext.grid.*',
+		    'Ext.data.*',
+		    'Ext.util.*',
+		    'Ext.state.*',
+		    'Ext.form.*'
+		]);
+
+
+		Ext.define('ClientModel', {
+				extend: 'Ext.data.Model',
+				fields: [
+						{name: 'id', type: 'int'},
+						{name: 'name', type: 'string'},
+						{name: 'nit', type: 'string'},
+						{name: 'tel01', type: 'string'},
+						{name: 'comment', type: 'string'}
+				]
+		});
+
+
+		var store = Ext.create('Ext.data.Store', {
+				storeId: 'clientStore',
+				model: 'ClientModel',
+				autoLoad: true,
+				proxy: {
+						type: 'memory',
+						reader:{
+							type: 'json',
+							rootProperty: 'Clients',
+							totalProperty: 'Total'
+						}
+				},
+				data: clientData,
+				pageSize: 20
+		});
+
+		var menu = Ext.create('Ext.menu.Menu', {
+	      plain: true,
+	      layout: 'hbox',
+	      floating: false,
+	      flex: true,
+				border: false,
+				margin: '10 25 10 25',
+	      style: {
+	           overflow: 'visible'
+	       },
+	      items: [{
+	          text: '+Nuevo Cliente',
+						xtype: 'button',
+						handler: function() {
+                window.location = '/client/add';
+            }
+	      },{
+	          text: 'Importar desde excel'
+	      },{
+	          xtype: 'tbspacer',
+						width: '25px'
+	      }]
+	      ,region: 'north'
+	  });
+
+    var grid = Ext.create('Ext.grid.Panel', {
+			  title: 'Clientes',
+				region: 'center',
+        store:  store,
+				plain: false,
+				align : 'center',
+				width: '85%',
+				height: 500,
+				floating: false,
+				flex: 1,
+				border: false,
+				margin: '10 25 10 25',
+				style: {
+						 overflow: 'visible'
+				 },
+        columns: [
+					{
+							//style: 'margin: 1em auto 2em; width: 85%; height:30px;',
+	            xtype: 'checkcolumn',
+	            dataIndex: 'selected',
+							width: 20
+	        },{
+						//xtype: 'actioncolumn',
+            header: 'Nombre',
+            dataIndex: 'name',
+						text: 'Name',
+            flex: 1,
+						filter: {text: 'Filtro', type: 'string', dataIndex: 'name'},
+        }, {
+            header: 'Nit',
+            dataIndex: 'nit',
+						sortable: true
+						,flex: 1,
+						filter: {type: 'string', dataIndex: 'nit'},
+        }, {
+            header: 'Teléfono 01',
+            dataIndex: 'tel01',
+						sortable: true
+						,flex: 1,
+						filter: {type: 'string', dataIndex: 'tel01'},
+        }, {
+            header: 'Observaciones',
+            dataIndex: 'comment',
+						sortable: true
+						,flex: 1,
+						filter: {type: 'string', dataIndex: 'comment'},
+        },{
+					header: 'Acciones',
+					xtype: 'actioncolumn',
+					align: 'center',
+					layout: 'hbox',
+					flex: 0,
+					filterable: false,
+					items: [{
+								icon: "/images/zoom.png",
+								text: "zoom",
+								tooltip: "Ver",
+								stopSelection: false,
+								handler: function(grid, rowIndex, colIndex) {
+										var id = grid.store.getAt(rowIndex).data.id;
+										window.location = '/client/view?id='+ escape(id);
+								}
+							},{
+								icon: "/images/page_edit.png",
+								text: "edit",
+								tooltip: "Editar",
+								handler: function(grid, rowIndex, colIndex) {
+										var id = grid.store.getAt(rowIndex).data.id;
+										window.location = '/client/edit?id='+ escape(id);
+								}
+							},{
+								icon: "/images/delete.png",
+								text: "delete",
+								tooltip: "Eliminar",
+								handler: function(grid, rowIndex, colIndex) {
+										var id = grid.store.getAt(rowIndex).data.id;
+										var name = grid.store.getAt(rowIndex).data.name;
+
+										Ext.Msg.show({
+											title: 'Confirmación',
+											msg: '¿Está seguro de eliminar a '+ name +' como cliente?',
+											buttons: Ext.Msg.YESNO,
+											buttonText: {
+												yes: 'Si'
+											},
+											fn: function(btnValue, inputText, showConfig){
+												if(btnValue === 'yes'){
+													window.location = '/client/delete?id=' + escape(id);
+												}
+											}
+										});
+
+								}
+					}],
+				}],
+				bbar: Ext.create('Ext.PagingToolbar', {
+					store: store,
+					displayInfo: true,
+					displayMsg: 'Mostrando {0} - {1} de {2}',
+					emptyMsg: "Aún sin clientes, crea el primero con el botón Nuevo Cliente"
+					//inputItemWidth: 2
+				}),
+				plugins: [{
+				  ptype: 'gridfilters'
+				}],
+				flex: 1
+    });
+/*
+		grid.on('rowclick', function(thiss, td, cellIndex, record, tr, rowIndex, e, eOpts){
+			//console.log(cellIndex);
+
+			var gridColumnLength = grid.columns.length;
+			for(var i=0; i<gridColumnLength; i++){
+				if(grid.columns[i].tdCls == "selected-row")
+					grid.columns[i].tdCls = "";
+			}
+			grid.columns[cellIndex].tdCls = "selected-row";
+			grid.getView().refresh();
+		})*/
+
+		var spacer = {
+									 xtype: 'tbspacer',
+									 height: '25px'
+								 };
+
+	 Ext.define('Main', {
+	     extend: 'Ext.container.Container',
+	     xtype: 'app-main'
+	     ,items: [spacer,
+				 				menu,
+								spacer,
+				 				grid ]
+	 });
+
+
+	 Ext.application({
+	     name: 'Clients',
+
+	     launch : function() {
+	         Ext.create("Main", {
+	             renderTo : Ext.getBody()
+	         });
+					 store.loadPage(1);
+	     }
+	 });
+
+
+</script>

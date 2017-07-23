@@ -5,13 +5,13 @@
 <?php
 
   echo $this->headScript()
-                  ->prependFile($this->baseUrl('js/extjs_6_5\theme-classic\theme-classic-debug.js'))
-                  ->prependFile($this->baseUrl('js/extjs_6_5/ext-all.js'));
+                  ->prependFile($this->baseUrl('jsalegra/extjs_6_5\theme-classic\theme-classic.js'))
+                  ->prependFile($this->baseUrl('jsalegra/extjs_6_5/ext-all.js'));
 
   echo $this->headLink()
-                  ->prependStylesheet('/css/styles-min.css')
-                  ->prependStylesheet('/css/ext-theme-gray-all2.css')
-                  ->prependStylesheet('/css/theme-triton/theme-triton-all.css');
+                  ->prependStylesheet('/cssalegra/styles-min.css')
+                  ->prependStylesheet('/cssalegra/ext-theme-gray-all2.css')
+                  ->prependStylesheet('/cssalegra/theme-triton/theme-triton-all.css');
 ?>
 </head>
 <body>
@@ -34,14 +34,20 @@
       },{
           text: 'Contactos',
           menu:[{
-            text: 'Todos'
-          },{
-            text: 'Clientes',
+            text: 'Todos',
             handler: function() {
                 window.location = '/client/';
             }
           },{
-            text: 'Proveedores'
+            text: 'Clientes',
+            handler: function() {
+                window.location = '/client/view-client';
+            }
+          },{
+            text: 'Proveedores',
+            handler: function() {
+                window.location = '/client/view-provider';
+            }
           }]
       },{
           text: 'Inventario'

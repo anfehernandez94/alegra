@@ -15,6 +15,20 @@ class ClientController extends Zend_Controller_Action
       $this->view->entries = array('Total'=>count($clients),'Clients'=>$clients);
     }
 
+    public function viewClientAction()
+    {
+  		$clientMapper = new Application_Model_ClientMapper();
+      $clients = $clientMapper->fetchAllClients();
+      $this->view->entries = array('Total'=>count($clients),'Clients'=>$clients);
+    }
+
+    public function viewProviderAction()
+    {
+      $clientMapper = new Application_Model_ClientMapper();
+      $clients = $clientMapper->fetchAllProviders();
+      $this->view->entries = array('Total'=>count($clients),'Clients'=>$clients);
+    }
+
 	   public function addAction()
   	{
       $request = $this->getRequest();
@@ -39,7 +53,6 @@ class ClientController extends Zend_Controller_Action
                                     'price_list'=>$priceList,
                                     'seller'=>$seller);
 
-  		//$this->view->form = NULL;
   	}
 
     public function editAction()

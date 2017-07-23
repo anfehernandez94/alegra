@@ -55,6 +55,38 @@ class Application_Model_ClientMapper
       return $entries;
   }
 
+	public function fetchAllClients()
+	{
+			$resultSet = $this->getDbTable()->fetchAll("client=1");
+			$entries   = array();
+			foreach ($resultSet as $row) {
+					$entry = new Application_Model_Client();
+					$entry	->setId(htmlentities($row->id))
+									->setName(htmlentities($row->name))
+									->setNit(htmlentities($row->nit))
+									->setTel01(htmlentities($row->tel01))
+									->setComment(htmlentities($row->comment));
+					$entries[] = $entry->convert2Array();
+			}
+			return $entries;
+	}
+
+	public function fetchAllProviders()
+	{
+			$resultSet = $this->getDbTable()->fetchAll("provider=1");
+			$entries   = array();
+			foreach ($resultSet as $row) {
+					$entry = new Application_Model_Client();
+					$entry	->setId(htmlentities($row->id))
+									->setName(htmlentities($row->name))
+									->setNit(htmlentities($row->nit))
+									->setTel01(htmlentities($row->tel01))
+									->setComment(htmlentities($row->comment));
+					$entries[] = $entry->convert2Array();
+			}
+			return $entries;
+	}
+
 	public function fetchRowById($id){
 
 			$select = $this->getDbTable()->fetchAll("id=".$id);
