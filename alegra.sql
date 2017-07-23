@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-07-2017 a las 17:10:48
+-- Tiempo de generación: 23-07-2017 a las 19:07:06
 -- Versión del servidor: 5.7.14
 -- Versión de PHP: 5.6.25
 
@@ -51,11 +51,10 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`id`, `name`, `nit`, `address`, `city`, `email`, `tel01`, `tel02`, `fax`, `phone`, `price_list`, `seller`, `payment_term`, `client`, `provider`, `comment`, `account_status`) VALUES
-(5, 'AndrÃ©s', '123', 'Cra 25', 'La Ceja', 'af@h.com.co', '4564 22556 (ext 25s55)', '4564 22556 (ext 2555)', '123 4556 - 222', '(+57) 300 222 5555', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(9, 'AndrÃ©s', '123456', 'Cra 25', 'Angostura ciudad grande de nombre pequeÃ±o', 'asdasd@mail.com', '12345667 ext 2000 ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Sin observaciones particulares', NULL),
+(9, 'AndrÃ©s', '123456', 'Cra 25', 'Angostura ciudad grande de nombre pequeÃ±o', 'asdasd@mail.com', '12345667 ext 2000 ', '562', '12345', '(+57) 222 555 222', 2, 2, 6, 1, NULL, 'Sin observaciones particulares', NULL),
 (10, 'Industrias Guamito', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(11, 'Galletas Crok', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(12, 'Dulces MarÃ­a', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(11, 'Galletas Crok', '900.222.222 - 8', 'Zona franca sur - SecciÃ³n 12', 'BogotÃ¡', 'crok@crok.com.co', '(+57 1) 325 25 26', '(+57 2) 953 33 33', NULL, '(+57) 300 123 4567', 2, 2, 5, 1, 1, 'Deliciosas', 1),
+(12, 'Dulces MarÃ­a', '123456778897878', 'Cra 42 con Transversal 29 Barrio Colonia - Edificio Surex local 290', 'MedellÃ­n', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, 'Empresa sin sal', NULL);
 
 -- --------------------------------------------------------
 
@@ -65,8 +64,20 @@ INSERT INTO `client` (`id`, `name`, `nit`, `address`, `city`, `email`, `tel01`, 
 
 CREATE TABLE `payment_term` (
   `id` int(11) NOT NULL,
-  `description` varchar(255) NOT NULL
+  `description` varchar(255) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `payment_term`
+--
+
+INSERT INTO `payment_term` (`id`, `description`) VALUES
+(1, 'Vencimiento manual'),
+(2, 'De contado'),
+(3, '8 dÃ­as'),
+(4, '15 dÃ­as'),
+(5, '30 dÃ­as'),
+(6, '60 dÃ­as');
 
 -- --------------------------------------------------------
 
@@ -76,16 +87,16 @@ CREATE TABLE `payment_term` (
 
 CREATE TABLE `price_list` (
   `id` int(11) NOT NULL,
-  `price_list` decimal(16,2) NOT NULL
+  `description` varchar(20) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `price_list`
 --
 
-INSERT INTO `price_list` (`id`, `price_list`) VALUES
-(1, '10000.00'),
-(2, '546000.25');
+INSERT INTO `price_list` (`id`, `description`) VALUES
+(1, 'General'),
+(2, 'Ninguna');
 
 -- --------------------------------------------------------
 
@@ -95,8 +106,16 @@ INSERT INTO `price_list` (`id`, `price_list`) VALUES
 
 CREATE TABLE `seller` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
+  `name` varchar(255) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `seller`
+--
+
+INSERT INTO `seller` (`id`, `name`) VALUES
+(1, 'Ninguno'),
+(2, 'AndrÃ©s HernÃ¡ndez');
 
 --
 -- Índices para tablas volcadas
@@ -143,7 +162,7 @@ ALTER TABLE `client`
 -- AUTO_INCREMENT de la tabla `payment_term`
 --
 ALTER TABLE `payment_term`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT de la tabla `price_list`
 --
@@ -153,7 +172,7 @@ ALTER TABLE `price_list`
 -- AUTO_INCREMENT de la tabla `seller`
 --
 ALTER TABLE `seller`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- Restricciones para tablas volcadas
 --
